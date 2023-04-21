@@ -1,0 +1,20 @@
+MATCH (drug:Concept)-[r1:INHIBITS|DISRUPTS|INTERACTS_WITH]->(c2)-[r2:CAUSES|ASSOCIATED_WITH|PREDISPOSES|AUGMENTS|AFFECTS]->(covid:Concept)
+where drug.cui in ["C0011777"] and covid.cui in ["C5203670","C5203676","C5203671"] 
+WITH drug,r1,c2,r2,covid order by (r1.freq+r2.freq) desc limit 20
+CALL {
+    WITH drug,r1,c2
+    match (c_xy:Citation)<-[r_in_xy:IS_IN]-(s_xy:Sentence)<-[r_extr_xy:Extracted_From]-(i_xy:Instance {predicate: type(r1)})-[r_sub_x:Inst_Subject]->(drug:Concept),
+      (i_xy)-[r_obj_y:Inst_Object]->(c2:Concept)
+    WITH c_xy, s_xy
+    LIMIT 3
+    RETURN collect("PMID:"+c_xy.pmid+"-"+c_xy.pyear+": "+s_xy.sentence) as sent_xy
+}
+CALL {
+    WITH c2,r2,covid
+    match (c_yz:Citation)<-[r_in_yz:IS_IN]-(s_yz:Sentence)<-[r_extr_yz:Extracted_From]-(i_yz:Instance)-[r_sub_y:Inst_Subject]->(c2:Concept),
+      (i_yz)-[r_obj_z:Inst_Object]->(covid:Concept)
+    WITH c_yz, s_yz
+    LIMIT 3
+    RETURN collect("PMID:"+c_yz.pmid+"-"+c_yz.pyear+": "+s_yz.sentence) as sent_yz
+}
+RETURN sent_xy,drug.cui+":"+drug.name+"-"+type(r1)+"-> "+c2.cui+":"+c2.name+"-"+type(r2)+"-> "+covid.cui+":"+covid.name as Drug_Y_Covid,sent_yz;

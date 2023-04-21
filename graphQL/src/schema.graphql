@@ -1,0 +1,550 @@
+scalar LimitedInt
+
+interface GeneProperties @relationshipProperties {
+  SIFT: String
+  SplicingPredictionScore: Float
+  cadd_score: Float
+  HTZinSLO: Int
+  PolyPhen2_modified: Float
+  MutationTaster: String
+  GnomADHMZ: Int
+  MutationTaster_modified: Float
+  functional_impact: String
+  variant_position: String
+  GnomADAlleleCount: Int
+  PolyPhen2: String
+  SIFT_modified: Float
+  ClinVar: String
+  HMZinSLO: Int
+}
+
+type HPO {
+  hpo_id: String
+  label: String
+  name: String
+  umls_cui: String
+  patients: [Patient!]! @relationship(type: "PHENO", direction: IN)
+}
+
+type Patient {
+  patient_id: String
+  status: String @cypher(
+    statement: """
+      RETURN 
+        CASE toInteger(round(rand()))
+          WHEN 0 THEN "open"
+          WHEN 1 THEN "closed"
+        END
+    """
+  )
+  phenos: [HPO!]! @relationship(type: "PHENO", direction: OUT)
+  genos: [Concept!]! @relationship(type:"GENO", direction: OUT, properties: "GeneProperties")
+}
+
+type StatusCount {
+  status: String
+  count: Int!
+}
+
+type PatientPerPheno {
+  PhenoCount: Int!
+  Patients: Int!
+}
+
+type DirectLinkType {
+  c1_cui: String
+  c1_name: String
+  labels_of_c1: [String]
+  type_of_r: String
+  r_freq: Int
+  type_of_r2: String
+  r2_freq: Int
+  g_cui: String
+  g_name: String
+  labels_of_g: [String]
+}
+
+type Concept {
+  name: String
+  stys: [String]
+  cui: String
+  min_pyear: Int
+  arg_inst_freq: Int
+  arg_rel_freq: Int
+  ensembl_gene_id: String
+  entrez_gene_id: Int
+  exac_pLI: Float
+  gene_symbol: String
+  mis_z: Float
+  semmed: Boolean
+  location: [Concept!]! @relationship(
+    type: "LOCATION_OF", 
+    direction: OUT
+  )
+  inhibits: [Concept!]! @relationship(
+    type: "INHIBITS(COREF)", 
+    direction: OUT
+  )
+}
+
+type IndirectLinkType {
+  c1_cui: String
+  c1_name: String
+  type_of_r3: String
+  r3_freq: Int
+  c2_cui: String
+  c2_name: String
+  labels_of_c2: [String]
+  type_of_r4: String
+  r4_freq: Int
+  g_cui: String
+  g_name: String
+  labels_of_g: [String]
+}
+
+type ShortestPathPrediction {
+  gene_name: String
+  gene_cui: String
+  length: Int
+  count: Int
+  phenos: [String]
+}
+
+type AllPaths {
+  source_cui: String
+  source_name: String
+  target_cui: String
+  target_name: String
+  paths: [String]
+
+}
+
+type NetworkElement {
+  id: String
+  label: String
+  source: String
+  target: String
+}
+
+type PredictedLinks {
+  gene_name: String
+  gene_cui: String
+  pheno_name: String
+  pheno_cui: String
+  relation: String
+  score: Float
+}
+
+type CitationData {
+    pmid: String
+    sentence: String
+    predicate_end_index: Int
+    predicate_start_index: Int
+    subject_start_index: Int
+    subject_end_index: Int
+    object_start_index: Int
+    object_end_index: Int
+}
+
+type Query {
+  ConceptCount: Int! @cypher(
+    statement:"""MATCH (c: Concept) RETURN COUNT(c)"""
+  )
+
+  PatientCount: Int! @cypher(
+    statement:"""MATCH (p: Patient) RETURN COUNT(p)"""
+  )
+
+  GenotypeCount: Int! @cypher(
+    statement:"""MATCH (n:Patient)-[r:GENO]->() RETURN COUNT(r)"""
+  )
+
+  PhenotypeCount: Int! @cypher(
+    statement:"""MATCH (n:Patient)-[r:PHENO]->() RETURN COUNT(r)"""
+  )
+
+  PatientStatusCount: [StatusCount] @cypher(
+    statement:"""
+      MATCH (p:Patient) 
+      WITH coalesce(p.status, 'undefined') AS status, Count(*) AS count 
+      ORDER BY status 
+      RETURN {status: status, count: count}
+    """
+  )
+
+  PatientsPerPhenoCount: [PatientPerPheno] @cypher(
+    statement:"""
+      MATCH (p:Patient)-[r:PHENO]->() 
+      WITH p, Count(r) AS PhenoCount
+      WITH PhenoCount, Count(p) AS PatientCount
+      ORDER BY PhenoCount 
+      RETURN {PhenoCount: PhenoCount, Patients: PatientCount}
+    """
+  )
+
+  ConceptByName(
+    first: Int,
+    offset: Int,
+    searchString: String,
+    orderBy: String): [Concept] @cypher(
+    statement: """
+      CALL db.index.fulltext.queryNodes(
+        'ConceptName', $searchString + '*'
+      ) 
+      YIELD node RETURN node
+      ORDER BY split($orderBy, '_')[0] DESC
+      SKIP $offset LIMIT $first
+    """
+  )
+
+  DirectLinkByPatient(first: Int, offset: Int, PatientId: String): [DirectLinkType] @cypher(
+    statement: """
+      MATCH (c1)<-[:PHENO_UMLS]-(p:Patient)-[r:GENO]->(g) 
+      WHERE (r.HMZinSLO < 2) 
+        AND (r.GnomADHMZ < 10) 
+        AND p.patient_id = $PatientId
+      WITH c1, p, r, g 
+      MATCH (c1)-[r2]-(g) 
+      RETURN { 
+        c1_cui      : c1.cui,
+        c1_name     : c1.name,
+        labels_of_c1: labels(c1),
+        type_of_r   : type(r),
+        r_freq      : r.freq,
+        type_of_r2  : type(r2),
+        r2_freq     : r2.freq,
+        g_cui       : g.cui,
+        g_name      : g.name, 
+        labels_of_g : labels(g)
+      }
+      ORDER BY r2.freq desc 
+      , r.GnomADAlleleCount asc
+      , r.HTZinSLO asc
+      , r.cadd_score desc
+      , r.SIFT asc 
+      SKIP $offset LIMIT $first
+    """
+  )
+
+  IndirectLinkByPatient(first: Int, offset: Int, PatientId: String): [IndirectLinkType] @cypher(
+    statement: """
+      MATCH (c1)<-[:PHENO_UMLS]-(p:Patient)-[r:GENO]->(g) 
+      WHERE (r.HMZinSLO < 2) AND (r.GnomADHMZ < 10) 
+        AND p.patient_id = $PatientId
+      WITH c1,p,r,g 
+      MATCH (c1)<-[r3]-(c2)<-[r4]-(g) 
+      RETURN { 
+        c1_cui      : c1.cui,
+        c1_name     : c1.name,
+        type_of_r3  : type(r3),
+        r3_freq     : r3.freq,
+        c2_cui      : c2.cui,
+        c2_name     : c2.name,
+        labels_of_c2: labels(c2),
+        type_of_r4  : type(r4),
+        r4_freq     : r4.freq,
+        g_cui       : g.cui,
+        g_name      : g.name,
+        labels_of_g : labels(g)
+        }  
+      ORDER BY r3.freq+r4.freq desc 
+      SKIP $offset LIMIT $first 
+    """
+  )
+
+  GetShortestPathPrediction(first: Int, offset: Int, PatientId: String): [ShortestPathPrediction] 
+  @cypher(
+    statement:"""
+      MATCH (p:Patient)
+      WHERE p.patient_id = $PatientId
+      MATCH (p)-[:PHENO_UMLS|PHENO]->(pheno)
+      WITH p, collect(distinct coalesce(pheno.cui, pheno.umls_cui)) AS phenos
+      MATCH (p)-[:GENO]->(gene)    
+      MATCH path = allShortestPaths((gene)-[:CAUSES|AFFECTS*..6]-(y:Concept)) 
+      WHERE (all(
+        n in nodes(path)[1..-1] 
+        WHERE n:gngm 
+          OR n:aapp 
+          OR n:dsyn 
+          OR n:patf
+      )) 
+        AND (y.cui IN phenos)
+      WITH 
+        gene.name AS gene_name, 
+        gene.cui AS gene_cui, 
+        length(path) AS length, 
+        count(path) AS count, 
+        phenos
+      ORDER BY length ASC, count DESC
+      LIMIT 100
+      RETURN {
+        gene_name: gene_name, 
+        gene_cui: gene_cui, 
+        length: length, 
+        count: count, 
+        phenos:phenos
+      } AS result SKIP $offset LIMIT $first
+    """
+  )
+
+  GetAllPathsLinks1 (
+    source_cui: [String], 
+    target_cui: [String], 
+    length: Int,
+    first: Int,
+    offset: Int
+  ): [AllPaths] @cypher(
+    statement:"""
+      MATCH (s:Concept),(t:Concept)
+      WHERE s.cui IN $source_cui AND t.cui IN $target_cui
+      WITH s, collect(t) AS terminator
+      CALL apoc.path.expandConfig(s, {
+        relationshipFilter:
+          'CAUSES>|AFFECTS>|STIMULATES>|INHIBITS>|AUGMENTS>|PREDISPOSES>|ASSOCIATED_WITH>',
+        maxLevel: $length,
+        terminatorNodes: terminator,
+        optional:true,
+        bfs:false,
+        limit:90
+      })
+      YIELD path as p
+      WITH s, p, terminator
+      SKIP $offset LIMIT $first
+      WITH s,p,terminator
+      WITH 
+        s.cui AS source_cui, 
+        s.name AS source_name, 
+        apoc.text.join(
+          [t in terminator WHERE NOT t.cui IS NULL | t.cui], ', '
+        ) AS target_cui, 
+        apoc.text.join(
+          [t in terminator WHERE NOT t.name IS NULL | t.name], ', '
+        ) AS target_name, 
+        [r in relationships(p) 
+        | startNode(r).cui + ':' + startNode(r).name + '**' 
+          + coalesce(toString(startnode(r).arg_inst_freq), '5') + '**' + '*-*' 
+          + type(r) + '**' 
+          + coalesce(toString(r.freq), '5') + '**' + '*-*>' 
+          + endNode(r).cui + ':' + endNode(r).name + '**' 
+          + coalesce(toString(endNode(r).arg_inst_freq), '5') + '**'
+        ] AS paths
+      RETURN {
+        source_cui: source_cui, 
+        source_name: source_name, 
+        target_cui: target_cui, 
+        target_name: target_name, 
+        paths: paths
+      }
+    """
+  )
+
+  NeighbourGraph(searchString:String!): [NetworkElement] @cypher(
+    statement:"""
+      MATCH (c:Concept)-[r]-(n:Concept)
+      WHERE c.name = $searchString
+      WITH c, r, n LIMIT 25
+      UNWIND [c, r, n] as row
+      RETURN 
+        CASE 
+          WHEN apoc.meta.type(row) = 'NODE' 
+          THEN {
+            id: toString(id(row)), 
+            label: row.name
+          } 
+          ELSE {
+            source: toString(id(startNode(row))), 
+            target: toString(id(endNode(row))), 
+            label: type(row), 
+            id: toString(id(row))
+          }
+        END as result
+    """
+  )
+
+  GetPredictedLinks(PatientId: String): [PredictedLinks] @cypher(
+    statement:"""
+      MATCH (p:Patient)
+      WHERE p.patient_id = $PatientId
+      MATCH (p)-[:GENO]->(genes)
+      WITH p, collect(genes.cui) AS genes
+      MATCH (p)-[:PHENO]->(pheno)
+      WITH p, genes, collect(pheno.umls_cui) AS phenos
+      CALL apoc.load.jsonParams(
+        'http://pykeen:3000',
+        {method: 'POST', `Content-Type`: 'application/json'},
+        apoc.convert.toJson({genes: genes, phenos: phenos})
+      ) YIELD value
+      UNWIND value.result AS r
+      MATCH (c1:Concept) WHERE c1.cui = r.gene
+      MATCH (c2:Concept) WHERE c2.cui = r.pheno
+      RETURN {
+        score: r.score, 
+        gene_cui: r.gene, 
+        gene_name: c1.name, 
+        relation: r.relation, 
+        pheno_cui: r.pheno, 
+        pheno_name: c2.name
+      } AS result
+    """
+  )
+
+  GetCitationData(subject:[String], object:[String]): [CitationData] @cypher(
+    statement: """
+      MATCH (subject:Concept), (object:Concept)
+      WHERE subject.cui IN $subject AND object.cui IN $object
+      MATCH 
+        (citation:Citation)<-[:IS_IN]
+        -(sentence:Sentence)<-[:Extracted_From]
+        -(instance:Instance)
+        -[sub:Inst_Subject]->(subject)
+        , (instance)-[obj:Inst_Object]->(object)
+      RETURN 
+        citation.pmid AS pmid, 
+        sentence.sentence AS sentence, 
+        instance.predicate_end_index 
+        - sentence.sent_start_index AS predicate_end_index, 
+        instance.predicate_start_index 
+        - sentence.sent_start_index AS predicate_start_index, 
+        sub.subject_start_index 
+        - sentence.sent_start_index AS subject_start_index, 
+        sub.subject_end_index 
+        - sentence.sent_start_index AS subject_end_index, 
+        obj.object_end_index 
+        - sentence.sent_start_index AS object_end_index, 
+        obj.object_start_index 
+        - sentence.sent_start_index AS object_start_index 
+    """
+  )
+
+  FindExistingPatients(patients: [String]): Boolean @cypher(
+    statement:"""
+      OPTIONAL MATCH (p:Patient)
+      WHERE p.patient_id in $patients
+      WITH collect(distinct p) as existing_patients
+      RETURN 
+        CASE WHEN size(existing_patients) > 0 
+          THEN true 
+          ELSE false
+        END as result
+    """
+  )
+}
+
+type StorePhenotypePayload {
+  result: String
+}
+
+type StoreVariantsPayload {
+  result: String
+}
+
+input PhenoInput {
+  PatientID: String
+  HPOID: String
+  HPOLabel: String
+  PARENT_LVL: String
+  UMLSID: String
+}
+
+input VariantsInput {
+  GeneName: String
+  PatientID: String
+  FunctionalImpact: String
+  VariantPosition: String
+  CADDscore: String
+  EntrezGeneID: String
+  EnsemblGeneID: String
+  HTZinSLO: String
+  HMZinSLO: String
+  HEMinSLO: String  
+  GnomADAlleleCount: String
+  GnomADHMZ: String
+  SIFT: String
+  PolyPhen2: String
+  MetaSVM: String
+  MutationTaster: String
+  SplicingPredictionScore: String
+  ClinVar: String
+  SIFT_modified: String
+  PolyPhen2_modified: String
+  MutationTaster_modified: String
+}
+
+type Mutation {
+  StorePhenotype(data:[PhenoInput]!): StorePhenotypePayload @cypher(
+    statement:"""
+    UNWIND $data as line
+    MERGE (p:Patient {id: line['PatientID']})
+    ON CREATE SET p.patient_id=line['PatientID']
+    MERGE (t:HPO {id: line['HPOID']})
+    ON CREATE SET 
+      t.name = line['HPOLabel'], 
+      t.hpo_id = line['HPOID'], 
+      t.label = line['HPOLabel'], 
+      t.umls_cui = line['UMLSID']
+    MERGE (c:Concept {cui: line['UMLSID']})
+    ON CREATE SET c.semmed = false
+    MERGE (p)-[r:PHENO {parent_lvl: toInteger(line['PARENT_LVL'])}]->(t)
+    MERGE (p)-[r2:PHENO_UMLS {parent_lvl: toInteger(line['PARENT_LVL'])}]->(c)
+    RETURN distinct {result: 'success'}
+    """
+  )
+
+  StoreVariants(data:[VariantsInput]!): StoreVariantsPayload @cypher(
+    statement:"""
+      UNWIND $data as line
+      MERGE (p:Patient {id: line['PatientID']})
+      MERGE (c:Concept {cui: line['EntrezGeneID']})
+      ON CREATE SET 
+        c:gngm, 
+        c.cui = line['EntrezGeneID'], 
+        c.name = line['GeneName'], 
+        c.gene_symbol = line['GeneName'], 
+        c.entrez_gene_id = line['EntrezGeneID'], 
+        c.ensembl_gene_id = line['EnsemblGeneID'], 
+        c.semmed = false
+      ON MATCH SET 
+        c:gngm, 
+        c.gene_symbol=line['GeneName'], 
+        c.entrez_gene_id=line['EntrezGeneID'], 
+        c.ensembl_gene_id=line['EnsemblGeneID']
+      CREATE (p)-[r:GENO {
+        variant_position: line['VariantPosition'], 
+        cadd_score: toFloat(line['CADDscore']), 
+        functional_impact: line['FunctionalImpact'], 
+        HTZinSLO: toInteger(line['HTZinSLO']), 
+        HMZinSLO: toInteger(line['HMZinSLO']), 
+        GnomADAlleleCount: toInteger(line['GnomADAlleleCount']), 
+        GnomADHMZ: toInteger(line['GnomADHMZ']), 
+        SIFT: line['SIFT'], 
+        PolyPhen2: line['PolyPhen2'],
+        MutationTaster: line['MutationTaster'], 
+        SplicingPredictionScore: toFloat(line['SplicingPredictionScore']), 
+        ClinVar: line['ClinVar'], 
+        SIFT_modified: toFloat(line['SIFT_modified']),	
+        PolyPhen2_modified: toFloat(line['PolyPhen2_modified']),	
+        MutationTaster_modified: toFloat(line['MutationTaster_modified'])
+      }]->(c)
+      RETURN distinct {result: 'success'};
+    """
+  )
+
+  DeletePhenos(patient_ids: [String]): Boolean @cypher(
+    statement:"""
+      MATCH (n:Patient)-[r:PHENO|PHENO]-()
+      WHERE n.patient_id in $patient_ids
+      DELETE r
+      RETURN distinct true
+    """
+  )
+
+  DeleteGenos(patient_ids: [String]): Boolean @cypher(
+    statement:"""
+      MATCH (n:Patient)-[r:GENO]-()
+      WHERE n.patient_id in $patient_ids
+      DELETE r
+      RETURN distinct true
+    """
+  )
+}
+

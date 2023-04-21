@@ -1,0 +1,26 @@
+html
+  head
+    title Pheno results
+  body
+
+    h1 Pheno for patient: #{records[0].patient_id}
+        table(style='width:100%', border='1')
+            tr
+                each val, property in records[0]
+                    if property != 'patient_id'
+                        th= property        
+            each record, index in records
+                tr
+                    each val, property in record
+                        if property != 'patient_id' 
+                            td= val
+
+
+
+    p Pheno Results
+        ul
+            each record, index in records
+                p Record #{index}:
+                    each val, property in record
+                        li= property + ": " + val
+

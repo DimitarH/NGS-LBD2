@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/910574ea-43bd-41fd-ab58-72a1837e05d9/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/NGS-LDB-React",
+    "appService.deploySubpath": "."
+}

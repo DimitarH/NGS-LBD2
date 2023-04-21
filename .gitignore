@@ -1,0 +1,9 @@
+node_modules
+__pycache__
+build
+.env
+server_test.js
+triples.csv
+rotate-small
+pairre-small
+neo4j/data

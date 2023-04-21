@@ -1,0 +1,160 @@
+PatientID	HPO.ID	HPO.Label	UMLS.ID	PARENT_LVL
+DUMMY_RX6651	HP:0000252	Microcephaly	C0424688	0
+DUMMY_RX6651	HP:0007364	Aplasia/Hypoplasia of the cerebrum	C4024902	1
+DUMMY_RX6651	HP:0040195	Decreased head circumference	C0424688	1
+DUMMY_RX6651	HP:0002060	Abnormal cerebral morphology	C4021762	2
+DUMMY_RX6651	HP:0002977	Aplasia/Hypoplasia involving the central nervous system	C4025665	2
+DUMMY_RX6651	HP:0000240	Abnormality of skull size	C4025874	2
+DUMMY_RX6651	HP:0000483	Astigmatism	C0004106	0
+DUMMY_RX6651	HP:0000539	Abnormality of refraction	C4025843	1
+DUMMY_RX6651	HP:0100691	Abnormality of the curvature of the cornea	C4021995	1
+DUMMY_RX6651	HP:0012373	Abnormal eye physiology	C4022924	2
+DUMMY_RX6651	HP:0000481	Abnormal cornea morphology	C1855670	2
+DUMMY_RX6651	HP:0000545	Myopia	C0027092	0
+DUMMY_RX6651	HP:0000729	Autistic behavior	C0856975	0
+DUMMY_RX6651	HP:0000708	Behavioral abnormality	C0004941	1
+DUMMY_RX6651	HP:0012638	Abnormal nervous system physiology	C4022811	2
+DUMMY_RX6651	HP:0001249	Intellectual disability	C0025362	0
+DUMMY_RX6651	HP:0011446	Abnormality of higher mental function	C4023352	1
+DUMMY_RX6651	HP:0012759	Neurodevelopmental abnormality	C4022737	1
+DUMMY_RX6651	HP:0001999	Abnormal facial shape	C0266617	0
+DUMMY_RX6651	HP:0000271	Abnormality of the face	C0266617	1
+DUMMY_RX6651	HP:0000234	Abnormality of the head	C4021812	2
+DUMMY_RX8300	HP:0000483	Astigmatism	C0004106	0
+DUMMY_RX8300	HP:0000539	Abnormality of refraction	C4025843	1
+DUMMY_RX8300	HP:0100691	Abnormality of the curvature of the cornea	C4021995	1
+DUMMY_RX8300	HP:0012373	Abnormal eye physiology	C4022924	2
+DUMMY_RX8300	HP:0000481	Abnormal cornea morphology	C1855670	2
+DUMMY_RX8300	HP:0000978	Bruising susceptibility	C0013491	0
+DUMMY_RX8300	HP:0001933	Subcutaneous hemorrhage	C0854107	1
+DUMMY_RX8300	HP:0001892	Abnormal bleeding	C1458140	2
+DUMMY_RX8300	HP:0011276	Vascular skin abnormality	C0162819	2
+DUMMY_RX8300	HP:0011645	Dilatation of the sinus of Valsalva	C2239253	0
+DUMMY_RX8300	HP:0004970	Ascending tubular aorta aneurysm	C0345049	1
+DUMMY_RX8300	HP:0012727	Thoracic aortic aneurysm	C0162872	2
+DUMMY_RX9350	HP:0000483	Astigmatism	C0004106	0
+DUMMY_RX9350	HP:0000539	Abnormality of refraction	C4025843	1
+DUMMY_RX9350	HP:0100691	Abnormality of the curvature of the cornea	C4021995	1
+DUMMY_RX9350	HP:0012373	Abnormal eye physiology	C4022924	2
+DUMMY_RX9350	HP:0000481	Abnormal cornea morphology	C1855670	2
+DUMMY_RX9350	HP:0000978	Bruising susceptibility	C0013491	0
+DUMMY_RX9350	HP:0001933	Subcutaneous hemorrhage	C0854107	1
+DUMMY_RX9350	HP:0001892	Abnormal bleeding	C1458140	2
+DUMMY_RX9350	HP:0011276	Vascular skin abnormality	C0162819	2
+DUMMY_RX9350	HP:0011645	Dilatation of the sinus of Valsalva	C2239253	0
+DUMMY_RX9350	HP:0004970	Ascending tubular aorta aneurysm	C0345049	1
+DUMMY_RX9350	HP:0012727	Thoracic aortic aneurysm	C0162872	2
+DUMMY_RX5846	HP:0000252	Microcephaly	C0424688	0
+DUMMY_RX5846	HP:0007364	Aplasia/Hypoplasia of the cerebrum	C4024902	1
+DUMMY_RX5846	HP:0040195	Decreased head circumference	C0424688	1
+DUMMY_RX5846	HP:0002060	Abnormal cerebral morphology	C4021762	2
+DUMMY_RX5846	HP:0002977	Aplasia/Hypoplasia involving the central nervous system	C4025665	2
+DUMMY_RX5846	HP:0000240	Abnormality of skull size	C4025874	2
+DUMMY_RX5846	HP:0000483	Astigmatism	C0004106	0
+DUMMY_RX5846	HP:0000539	Abnormality of refraction	C4025843	1
+DUMMY_RX5846	HP:0100691	Abnormality of the curvature of the cornea	C4021995	1
+DUMMY_RX5846	HP:0012373	Abnormal eye physiology	C4022924	2
+DUMMY_RX5846	HP:0000481	Abnormal cornea morphology	C1855670	2
+DUMMY_RX5846	HP:0000545	Myopia	C0027092	0
+DUMMY_RX5846	HP:0000729	Autistic behavior	C0856975	0
+DUMMY_RX5846	HP:0000708	Behavioral abnormality	C0004941	1
+DUMMY_RX5846	HP:0012638	Abnormal nervous system physiology	C4022811	2
+DUMMY_RX5846	HP:0001249	Intellectual disability	C0025362	0
+DUMMY_RX5846	HP:0011446	Abnormality of higher mental function	C4023352	1
+DUMMY_RX5846	HP:0012759	Neurodevelopmental abnormality	C4022737	1
+DUMMY_RX5846	HP:0001999	Abnormal facial shape	C0266617	0
+DUMMY_RX5846	HP:0000271	Abnormality of the face	C0266617	1
+DUMMY_RX5846	HP:0000234	Abnormality of the head	C4021812	2
+DUMMY_RX9066	HP:0000483	Astigmatism	C0004106	0
+DUMMY_RX9066	HP:0000539	Abnormality of refraction	C4025843	1
+DUMMY_RX9066	HP:0100691	Abnormality of the curvature of the cornea	C4021995	1
+DUMMY_RX9066	HP:0012373	Abnormal eye physiology	C4022924	2
+DUMMY_RX9066	HP:0000481	Abnormal cornea morphology	C1855670	2
+DUMMY_RX9066	HP:0000978	Bruising susceptibility	C0013491	0
+DUMMY_RX9066	HP:0001933	Subcutaneous hemorrhage	C0854107	1
+DUMMY_RX9066	HP:0001892	Abnormal bleeding	C1458140	2
+DUMMY_RX9066	HP:0011276	Vascular skin abnormality	C0162819	2
+DUMMY_RX9066	HP:0011645	Dilatation of the sinus of Valsalva	C2239253	0
+DUMMY_RX9066	HP:0004970	Ascending tubular aorta aneurysm	C0345049	1
+DUMMY_RX9066	HP:0012727	Thoracic aortic aneurysm	C0162872	2
+DUMMY_RX3786	HP:0000872	Hashimoto thyroiditis	C0677607	0
+DUMMY_RX3786	HP:0002960	Autoimmunity	C0004364	1
+DUMMY_RX3786	HP:0100646	Thyroiditis	C0040147	1
+DUMMY_RX3786	HP:0010978	Abnormality of immune system physiology	C4023616	2
+DUMMY_RX3786	HP:0011772	Abnormal thyroid morphology	C4023195	2
+DUMMY_RX3786	HP:0012649	Increased inflammatory response	C4022803	2
+DUMMY_RX3786	HP:0002582	Chronic atrophic gastritis	C0017154	0
+DUMMY_RX3786	HP:0005231	Chronic gastritis	C0085695	1
+DUMMY_RX3786	HP:0005263	Gastritis	C0017152	2
+DUMMY_RX3786	HP:0003003	Colon cancer	C0007102	0
+DUMMY_RX3786	HP:0100273	Neoplasm of the colon	C0009375	1
+DUMMY_RX3786	HP:0100834	Neoplasm of the large intestine	C0009404	2
+DUMMY_RX3786	HP:0005266	Intestinal polyp	C0021846	0
+DUMMY_RX3786	HP:0002242	Abnormal intestine morphology	C0021831	1
+DUMMY_RX3786	HP:0007378	Neoplasm of the gastrointestinal tract	C0017185	1
+DUMMY_RX3786	HP:0012718	Morphological abnormality of the gastrointestinal tract	C4021073	2
+DUMMY_RX3786	HP:0011024	Abnormality of the gastrointestinal tract	C0012242	2
+DUMMY_RX3786	HP:0011793	Neoplasm by anatomical site	C4023185	2
+DUMMY_RX3786	HP:0008207	Primary adrenal insufficiency	C0001403	0
+DUMMY_RX3786	HP:0000846	Adrenal insufficiency	C0001623	1
+DUMMY_RX3786	HP:0011733	Abnormality of adrenal physiology	C4023212	2
+DUMMY_RX3786	HP:0008209	Premature ovarian insufficiency	C0025322	0
+DUMMY_RX3786	HP:0000137	Abnormality of the ovary	C0029928	2
+DUMMY_RX3786	HP:0030012	Abnormal female reproductive system physiology	C4020714	2
+DUMMY_RX9195	HP:0000175	Cleft palate	C0008925	0
+DUMMY_RX9195	HP:0000202	Oral cleft	C0158646	1
+DUMMY_RX9195	HP:0100737	Abnormal hard palate morphology	C4021983	1
+DUMMY_RX9195	HP:0000163	Abnormal oral cavity morphology	C4025887	2
+DUMMY_RX9195	HP:0000174	Abnormal palate morphology	C4021815	2
+DUMMY_RX9195	HP:0000252	Microcephaly	C0424688	0
+DUMMY_RX9195	HP:0007364	Aplasia/Hypoplasia of the cerebrum	C4024902	1
+DUMMY_RX9195	HP:0040195	Decreased head circumference	C0424688	1
+DUMMY_RX9195	HP:0002060	Abnormal cerebral morphology	C4021762	2
+DUMMY_RX9195	HP:0002977	Aplasia/Hypoplasia involving the central nervous system	C4025665	2
+DUMMY_RX9195	HP:0000240	Abnormality of skull size	C4025874	2
+DUMMY_RX9195	HP:0000431	Wide nasal bridge	C1839764	0
+DUMMY_RX9195	HP:0000422	Abnormal nasal bridge morphology	C4021805	1
+DUMMY_RX9195	HP:0000366	Abnormality of the nose	C0240547	2
+DUMMY_RX9195	HP:0000463	Anteverted nares	C1840077	0
+DUMMY_RX9195	HP:0000429	Abnormality of the nasal alae	C2227020	1
+DUMMY_RX9195	HP:0005105	Abnormal nasal morphology	C4025252	1
+DUMMY_RX9195	HP:0005288	Abnormality of the nares	C4021637	1
+DUMMY_RX9195	HP:0010938	Abnormality of the external nose	C2164724	2
+DUMMY_RX9195	HP:0001263	Global developmental delay	C0557874	0
+DUMMY_RX9195	HP:0012758	Neurodevelopmental delay	C4022738	1
+DUMMY_RX9195	HP:0012759	Neurodevelopmental abnormality	C4022737	2
+DUMMY_RX4615	HP:0000238	Hydrocephalus	C0020255	0
+DUMMY_RX4615	HP:0002118	Abnormality of the cerebral ventricles	C4025724	1
+DUMMY_RX4615	HP:0002921	Abnormality of the cerebrospinal fluid	C0151583	1
+DUMMY_RX4615	HP:0012443	Abnormality of brain morphology	C4021085	2
+DUMMY_RX4615	HP:0002011	Morphological central nervous system abnormality	C0007682	2
+DUMMY_RX4615	HP:0001321	Cerebellar hypoplasia	C0266470	0
+DUMMY_RX4615	HP:0007360	Aplasia/Hypoplasia of the cerebellum	C3279222	1
+DUMMY_RX4615	HP:0001317	Abnormal cerebellum morphology	C0742038	2
+DUMMY_RX4615	HP:0002977	Aplasia/Hypoplasia involving the central nervous system	C4025665	2
+DUMMY_RX4615	HP:0002410	Aqueductal stenosis	C2936786	0
+DUMMY_RX2314	HP:0000483	Astigmatism	C0004106	0
+DUMMY_RX2314	HP:0000539	Abnormality of refraction	C4025843	1
+DUMMY_RX2314	HP:0100691	Abnormality of the curvature of the cornea	C4021995	1
+DUMMY_RX2314	HP:0012373	Abnormal eye physiology	C4022924	2
+DUMMY_RX2314	HP:0000481	Abnormal cornea morphology	C1855670	2
+DUMMY_RX2314	HP:0000978	Bruising susceptibility	C0013491	0
+DUMMY_RX2314	HP:0001933	Subcutaneous hemorrhage	C0854107	1
+DUMMY_RX2314	HP:0001892	Abnormal bleeding	C1458140	2
+DUMMY_RX2314	HP:0011276	Vascular skin abnormality	C0162819	2
+DUMMY_RX2314	HP:0011645	Dilatation of the sinus of Valsalva	C2239253	0
+DUMMY_RX2314	HP:0004970	Ascending tubular aorta aneurysm	C0345049	1
+DUMMY_RX2314	HP:0012727	Thoracic aortic aneurysm	C0162872	2
+DUMMY_RX8007	HP:0001324	Muscle weakness	C0151786	0
+DUMMY_RX8007	HP:0011804	Abnormal muscle physiology	C4023182	1
+DUMMY_RX8007	HP:0003011	Abnormality of the musculature	C4021745	2
+DUMMY_RX8007	HP:0002378	Hand tremor	C0239842	0
+DUMMY_RX8007	HP:0030188	Tremor by anatomical site	C4022593	1
+DUMMY_RX8007	HP:0001337	Tremor	C0040822	2
+DUMMY_RX8007	HP:0003458	EMG: myopathic abnormalities	C4021726	0
+DUMMY_RX8007	HP:0003198	Myopathy	C0026848	1
+DUMMY_RX8007	HP:0003457	EMG abnormality	C0476403	1
+DUMMY_RX8007	HP:0011805	Abnormal skeletal muscle morphology	C4023181	2
+DUMMY_RX8007	HP:0011804	Abnormal muscle physiology	C4023182	2
+DUMMY_RX8007	HP:0003701	Proximal muscle weakness	C0221629	0
+DUMMY_RX8007	HP:0001324	Muscle weakness	C0151786	1
