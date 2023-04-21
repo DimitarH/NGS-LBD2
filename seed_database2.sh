@@ -8,7 +8,7 @@ echo Fetching data
 #    # mv 'semmed43cord19.dump?dl=1' /home/gbergant/ngslbd/neo4j/backup/semmed43cord19.dump
 #fi
 
-if [ ! -f ./neo4j/backup/'semmed432202-2023-04-21-ftx-name.dump.dump' ]; then
+if [ ! -f ./neo4j/backup/'semmed432202-2023-04-21-ftx-name.dump' ]; then
 # Get it from somewhere - maybe from my Google Drive.
 #    wget https://www.dropbox.com/s/1fzi43umt6u49pm/semmed43cord19.dump?dl=1 -O /home/gbergant/ngslbd/neo4j/backup/semmed43cord19.dump
 #    # mv 'semmed43cord19.dump?dl=1' /home/gbergant/ngslbd/neo4j/backup/semmed43cord19.dump
