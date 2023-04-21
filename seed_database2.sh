@@ -24,7 +24,7 @@ fi
 
 echo Starting Neo4j
 
-docker-compose up -d neo4jngs
+docker-compose -f docker-compose-server2.yml up -d neo4jngs
 
 sleep 20
 
@@ -53,7 +53,7 @@ docker exec -it neo4jngs cypher-shell -u neo4j -p ngslbd2020 'GRANT ROLE reader 
 
 echo Stop database
 
-docker-compose stop
+docker-compose -f docker-compose-server2.yml stop
 
 echo Rewrite default database setting
 
