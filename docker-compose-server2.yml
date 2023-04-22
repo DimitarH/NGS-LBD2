@@ -17,7 +17,7 @@ services:
     environment:
       - NEO4J_ACCEPT_LICENSE_AGREEMENT=yes
       - NEO4J_AUTH=neo4j/ngslbd2020
-      - NEO4J_dbms_connector_bolt_advertised__address=934.ablak.arnes.si:22333
+      - NEO4J_dbms_connector_bolt_advertised__address=194.249.1.168:22333
       - NEO4JLABS_PLUGINS=["apoc"]
       - NEO4J_dbms_transaction_timeout=20s
       - NEO4J_dbms_security_procedures_unrestricted=apoc.*,gds.*
