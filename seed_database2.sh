@@ -33,9 +33,10 @@ echo Restoring data
 #echo Restoring semmed43cord19
 echo Restoring semmed432202
 
+docker exec -it neo4jngs neo4j stop
 # docker exec -it neo4jngs bin/neo4j-admin load --from=/backup/'semmed43cord19.dump' --database=semmed43cord19 --force
 docker exec -it neo4jngs bin/neo4j-admin load --from=/backup/semmed432202-2023-04-21-ftx-name.dump --database=semmed432202 --force
-
+docker exec -it neo4jngs neo4j start
 
 echo Configuring priviliges and creating databases
 
