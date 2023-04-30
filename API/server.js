@@ -14,7 +14,9 @@ const queryParameterName = 'Query';
 const api_key  = process.env.api_key || "NZTXG3DCMQ="
 
 const uri      = process.env.neo4j_uri  || 'neo4j://neo4jngs:7687';
-const dbName   = process.env.dbName     || 'semmed43cord19'
+# Was:
+# const dbName   = process.env.dbName     || 'semmed43cord19'
+const dbName   = process.env.dbName     || 'semmed432202'
 const user     = process.env.neo4j_user || 'read_only';
 const password = process.env.password   || 'read_only_ngslbd2020'
 
