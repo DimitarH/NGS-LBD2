@@ -1,4 +1,7 @@
-FROM node:12
+# Was:
+# FROM node:12
+# Now:
+FROM node:14
 
 RUN mkdir -p /app
 WORKDIR /app
