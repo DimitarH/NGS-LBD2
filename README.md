@@ -1,6 +1,8 @@
 # NGS-LBD
 Using LBD (Literature-based Discovery) for the interpretation of NGS (Next Generation Sequencing) results
 
+This project was funded by the Slovenian Research Agency (Grant No. J5-1780, project name: Using Literature-based Discovery for Interpretation of Next Generation Sequencing Results)
+
 ## Setup from zero
 
 1. Clone repository
